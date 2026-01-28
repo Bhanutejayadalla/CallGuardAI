@@ -1,0 +1,118 @@
+{
+  "common": {
+    "appName": "CallGuard AI",
+    "loading": "ஏற்றுகிறது...",
+    "error": "பிழை ஏற்பட்டது",
+    "save": "சேமி",
+    "cancel": "ரத்து செய்",
+    "delete": "நீக்கு",
+    "edit": "திருத்து",
+    "search": "தேடு",
+    "filter": "வடிகட்டி",
+    "export": "ஏற்றுமதி",
+    "refresh": "புதுப்பி"
+  },
+  "nav": {
+    "home": "முகப்பு",
+    "analyze": "பகுப்பாய்வு",
+    "dashboard": "டாஷ்போர்டு",
+    "history": "வரலாறு",
+    "admin": "நிர்வாகி"
+  },
+  "home": {
+    "title": "AI-இயக்கும் அழைப்பு மோசடி கண்டறிதல்",
+    "subtitle": "மேம்பட்ட இயந்திர கற்றல் பகுப்பாய்வு மூலம் மோசடி அழைப்புகளிலிருந்து உங்களைப் பாதுகாத்துக்கொள்ளுங்கள்",
+    "cta": "அழைப்பை பகுப்பாய்வு செய்",
+    "features": {
+      "realtime": "நிகழ்நேர பகுப்பாய்வு",
+      "realtimeDesc": "நீங்கள் பேசும்போது உடனடி மோசடி கண்டறிதல்",
+      "multilingual": "பன்மொழி ஆதரவு",
+      "multilingualDesc": "ஆங்கிலம் மற்றும் முக்கிய இந்திய மொழிகள்",
+      "explainable": "விளக்கக்கூடிய AI",
+      "explainableDesc": "அழைப்புகள் ஏன் குறிக்கப்பட்டன என்பதைப் புரிந்துகொள்ளுங்கள்"
+    },
+    "stats": {
+      "callsAnalyzed": "பகுப்பாய்வு செய்யப்பட்ட அழைப்புகள்",
+      "fraudDetected": "மோசடி கண்டறியப்பட்டது",
+      "accuracy": "துல்லியம்"
+    }
+  },
+  "analyze": {
+    "title": "அழைப்பை பகுப்பாய்வு செய்",
+    "subtitle": "ஆடியோவை பதிவேற்றவும், நேரடியாக பதிவு செய்யவும், அல்லது பகுப்பாய்வுக்கு உரையை ஒட்டவும்",
+    "uploadTab": "ஆடியோ பதிவேற்றம்",
+    "recordTab": "நேரடி பதிவு",
+    "textTab": "உரை ஒட்டு",
+    "dropzone": "ஆடியோ கோப்பை இங்கே விடவும் அல்லது உலாவ கிளிக் செய்யவும்",
+    "supportedFormats": "ஆதரிக்கப்படும் வடிவங்கள்: MP3, WAV, OGG, FLAC, M4A",
+    "callerNumber": "அழைப்பாளர் எண் (விருப்பம்)",
+    "analyzeButton": "பகுப்பாய்வு செய்",
+    "analyzing": "பகுப்பாய்வு செய்கிறது...",
+    "results": "பகுப்பாய்வு முடிவுகள்"
+  },
+  "results": {
+    "riskScore": "ஆபத்து மதிப்பெண்",
+    "classification": "வகைப்பாடு",
+    "confidence": "நம்பிக்கை",
+    "linguisticScore": "மொழியியல் மதிப்பெண்",
+    "acousticScore": "ஒலி மதிப்பெண்",
+    "behavioralScore": "நடத்தை மதிப்பெண்",
+    "transcript": "படியெடுப்பு",
+    "fraudIndicators": "மோசடி குறிகாட்டிகள்",
+    "voiceAnalysis": "குரல் பகுப்பாய்வு",
+    "detectedKeywords": "கண்டறியப்பட்ட முக்கிய சொற்கள்",
+    "explanation": "AI விளக்கம்"
+  },
+  "classifications": {
+    "safe": "பாதுகாப்பானது",
+    "spam": "ஸ்பேம்",
+    "fraud": "மோசடி",
+    "phishing": "ஃபிஷிங்",
+    "robocall": "ரோபோகால்"
+  },
+  "dashboard": {
+    "title": "பகுப்பாய்வு டாஷ்போர்டு",
+    "totalCalls": "மொத்த அழைப்புகள்",
+    "fraudDetected": "மோசடி கண்டறியப்பட்டது",
+    "avgRiskScore": "சராசரி ஆபத்து மதிப்பெண்",
+    "detectionRate": "கண்டறிதல் விகிதம்",
+    "trends": "அழைப்பு போக்குகள்",
+    "distribution": "ஆபத்து விநியோகம்",
+    "recentCalls": "சமீபத்திய அழைப்புகள்",
+    "topIndicators": "முக்கிய மோசடி குறிகாட்டிகள்"
+  },
+  "history": {
+    "title": "அழைப்பு வரலாறு",
+    "noResults": "அழைப்புகள் எதுவும் கிடைக்கவில்லை",
+    "viewDetails": "விவரங்களைக் காண்க"
+  },
+  "admin": {
+    "title": "நிர்வாகி பேனல்",
+    "rules": "கண்டறிதல் விதிகள்",
+    "system": "அமைப்பு நிலை",
+    "addRule": "விதி சேர்",
+    "ruleName": "விதி பெயர்",
+    "pattern": "வடிவம் (ரெஜெக்ஸ்)",
+    "category": "வகை",
+    "severity": "தீவிரம்",
+    "scoreImpact": "மதிப்பெண் தாக்கம்"
+  },
+  "voice": {
+    "tone": "தொனி",
+    "speakingRate": "பேசும் வேகம்",
+    "stressLevel": "அழுத்த நிலை",
+    "naturalness": "இயல்பான தன்மை"
+  },
+  "indicators": {
+    "urgency_pressure": "அவசரம்/அழுத்த தந்திரங்கள்",
+    "financial_request": "நிதி கோரிக்கை",
+    "identity_request": "அடையாள தகவல் கோரிக்கை",
+    "threat_language": "அச்சுறுத்தும் மொழி",
+    "too_good_to_be_true": "உண்மையாக இருக்க முடியாத அளவு நல்லது",
+    "authority_claim": "அதிகாரம்/அதிகாரப்பூர்வ உரிமை கோரல்",
+    "callback_request": "திரும்ப அழைக்கும் கோரிக்கை",
+    "verification_bypass": "சரிபார்ப்பு புறக்கணிப்பு",
+    "emotional_manipulation": "உணர்ச்சி கையாளுதல்",
+    "time_pressure": "நேர அழுத்தம்"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "common": {
+    "appName": "CallGuard AI",
+    "loading": "लोड हो रहा है...",
+    "error": "एक त्रुटि हुई",
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "delete": "हटाएं",
+    "edit": "संपादित करें",
+    "search": "खोजें",
+    "filter": "फ़िल्टर",
+    "export": "निर्यात करें",
+    "refresh": "रिफ्रेश करें"
+  },
+  "nav": {
+    "home": "होम",
+    "analyze": "विश्लेषण",
+    "dashboard": "डैशबोर्ड",
+    "history": "इतिहास",
+    "admin": "एडमिन"
+  },
+  "home": {
+    "title": "AI-संचालित कॉल धोखाधड़ी पहचान",
+    "subtitle": "उन्नत मशीन लर्निंग विश्लेषण के साथ स्कैम कॉल से खुद को सुरक्षित करें",
+    "cta": "कॉल का विश्लेषण करें",
+    "features": {
+      "realtime": "रियल-टाइम विश्लेषण",
+      "realtimeDesc": "बोलते समय तुरंत धोखाधड़ी का पता लगाना",
+      "multilingual": "बहुभाषी समर्थन",
+      "multilingualDesc": "अंग्रेजी और प्रमुख भारतीय भाषाएं",
+      "explainable": "व्याख्यात्मक AI",
+      "explainableDesc": "समझें कि कॉल क्यों फ्लैग किए गए हैं"
+    },
+    "stats": {
+      "callsAnalyzed": "विश्लेषित कॉल",
+      "fraudDetected": "धोखाधड़ी का पता चला",
+      "accuracy": "सटीकता"
+    }
+  },
+  "analyze": {
+    "title": "कॉल का विश्लेषण करें",
+    "subtitle": "ऑडियो अपलोड करें, लाइव रिकॉर्ड करें, या विश्लेषण के लिए टेक्स्ट पेस्ट करें",
+    "uploadTab": "ऑडियो अपलोड करें",
+    "recordTab": "लाइव रिकॉर्ड करें",
+    "textTab": "टेक्स्ट पेस्ट करें",
+    "dropzone": "ऑडियो फ़ाइल यहां छोड़ें या ब्राउज़ करने के लिए क्लिक करें",
+    "supportedFormats": "समर्थित प्रारूप: MP3, WAV, OGG, FLAC, M4A",
+    "callerNumber": "कॉलर नंबर (वैकल्पिक)",
+    "analyzeButton": "विश्लेषण करें",
+    "analyzing": "विश्लेषण हो रहा है...",
+    "results": "विश्लेषण परिणाम"
+  },
+  "results": {
+    "riskScore": "जोखिम स्कोर",
+    "classification": "वर्गीकरण",
+    "confidence": "विश्वास स्तर",
+    "linguisticScore": "भाषाई स्कोर",
+    "acousticScore": "ध्वनिक स्कोर",
+    "behavioralScore": "व्यवहारिक स्कोर",
+    "transcript": "प्रतिलेख",
+    "fraudIndicators": "धोखाधड़ी संकेतक",
+    "voiceAnalysis": "आवाज विश्लेषण",
+    "detectedKeywords": "पता लगाए गए कीवर्ड",
+    "explanation": "AI व्याख्या"
+  },
+  "classifications": {
+    "safe": "सुरक्षित",
+    "spam": "स्पैम",
+    "fraud": "धोखाधड़ी",
+    "phishing": "फ़िशिंग",
+    "robocall": "रोबोकॉल"
+  },
+  "dashboard": {
+    "title": "एनालिटिक्स डैशबोर्ड",
+    "totalCalls": "कुल कॉल",
+    "fraudDetected": "धोखाधड़ी का पता चला",
+    "avgRiskScore": "औसत जोखिम स्कोर",
+    "detectionRate": "पता लगाने की दर",
+    "trends": "कॉल ट्रेंड",
+    "distribution": "जोखिम वितरण",
+    "recentCalls": "हाल की कॉल",
+    "topIndicators": "शीर्ष धोखाधड़ी संकेतक"
+  },
+  "history": {
+    "title": "कॉल इतिहास",
+    "noResults": "कोई कॉल नहीं मिली",
+    "viewDetails": "विवरण देखें"
+  },
+  "admin": {
+    "title": "एडमिन पैनल",
+    "rules": "पता लगाने के नियम",
+    "system": "सिस्टम स्थिति",
+    "addRule": "नियम जोड़ें",
+    "ruleName": "नियम का नाम",
+    "pattern": "पैटर्न (रेगेक्स)",
+    "category": "श्रेणी",
+    "severity": "गंभीरता",
+    "scoreImpact": "स्कोर प्रभाव"
+  },
+  "voice": {
+    "tone": "स्वर",
+    "speakingRate": "बोलने की गति",
+    "stressLevel": "तनाव स्तर",
+    "naturalness": "स्वाभाविकता"
+  },
+  "indicators": {
+    "urgency_pressure": "तात्कालिकता/दबाव रणनीति",
+    "financial_request": "वित्तीय अनुरोध",
+    "identity_request": "पहचान जानकारी अनुरोध",
+    "threat_language": "धमकी भरी भाषा",
+    "too_good_to_be_true": "बहुत अच्छा सच होने के लिए",
+    "authority_claim": "अधिकार/आधिकारिक दावा",
+    "callback_request": "कॉलबैक अनुरोध",
+    "verification_bypass": "सत्यापन बायपास",
+    "emotional_manipulation": "भावनात्मक हेरफेर",
+    "time_pressure": "समय का दबाव"
+  }
+}

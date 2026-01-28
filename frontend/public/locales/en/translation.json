@@ -1,0 +1,118 @@
+{
+  "common": {
+    "appName": "CallGuard AI",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "refresh": "Refresh"
+  },
+  "nav": {
+    "home": "Home",
+    "analyze": "Analyze",
+    "dashboard": "Dashboard",
+    "history": "History",
+    "admin": "Admin"
+  },
+  "home": {
+    "title": "AI-Powered Call Fraud Detection",
+    "subtitle": "Protect yourself from scam calls with advanced machine learning analysis",
+    "cta": "Analyze a Call",
+    "features": {
+      "realtime": "Real-time Analysis",
+      "realtimeDesc": "Instant fraud detection as you speak",
+      "multilingual": "Multilingual Support",
+      "multilingualDesc": "English and major Indian languages",
+      "explainable": "Explainable AI",
+      "explainableDesc": "Understand why calls are flagged"
+    },
+    "stats": {
+      "callsAnalyzed": "Calls Analyzed",
+      "fraudDetected": "Fraud Detected",
+      "accuracy": "Accuracy"
+    }
+  },
+  "analyze": {
+    "title": "Analyze Call",
+    "subtitle": "Upload audio, record live, or paste text for analysis",
+    "uploadTab": "Upload Audio",
+    "recordTab": "Record Live",
+    "textTab": "Paste Text",
+    "dropzone": "Drop audio file here or click to browse",
+    "supportedFormats": "Supported formats: MP3, WAV, OGG, FLAC, M4A",
+    "callerNumber": "Caller Number (optional)",
+    "analyzeButton": "Analyze",
+    "analyzing": "Analyzing...",
+    "results": "Analysis Results"
+  },
+  "results": {
+    "riskScore": "Risk Score",
+    "classification": "Classification",
+    "confidence": "Confidence",
+    "linguisticScore": "Linguistic Score",
+    "acousticScore": "Acoustic Score",
+    "behavioralScore": "Behavioral Score",
+    "transcript": "Transcript",
+    "fraudIndicators": "Fraud Indicators",
+    "voiceAnalysis": "Voice Analysis",
+    "detectedKeywords": "Detected Keywords",
+    "explanation": "AI Explanation"
+  },
+  "classifications": {
+    "safe": "Safe",
+    "spam": "Spam",
+    "fraud": "Fraud",
+    "phishing": "Phishing",
+    "robocall": "Robocall"
+  },
+  "dashboard": {
+    "title": "Analytics Dashboard",
+    "totalCalls": "Total Calls",
+    "fraudDetected": "Fraud Detected",
+    "avgRiskScore": "Avg Risk Score",
+    "detectionRate": "Detection Rate",
+    "trends": "Call Trends",
+    "distribution": "Risk Distribution",
+    "recentCalls": "Recent Calls",
+    "topIndicators": "Top Fraud Indicators"
+  },
+  "history": {
+    "title": "Call History",
+    "noResults": "No calls found",
+    "viewDetails": "View Details"
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "rules": "Detection Rules",
+    "system": "System Status",
+    "addRule": "Add Rule",
+    "ruleName": "Rule Name",
+    "pattern": "Pattern (Regex)",
+    "category": "Category",
+    "severity": "Severity",
+    "scoreImpact": "Score Impact"
+  },
+  "voice": {
+    "tone": "Tone",
+    "speakingRate": "Speaking Rate",
+    "stressLevel": "Stress Level",
+    "naturalness": "Naturalness"
+  },
+  "indicators": {
+    "urgency_pressure": "Urgency/Pressure Tactics",
+    "financial_request": "Financial Request",
+    "identity_request": "Identity Information Request",
+    "threat_language": "Threatening Language",
+    "too_good_to_be_true": "Too Good To Be True",
+    "authority_claim": "Authority/Official Claim",
+    "callback_request": "Callback Request",
+    "verification_bypass": "Verification Bypass",
+    "emotional_manipulation": "Emotional Manipulation",
+    "time_pressure": "Time Pressure"
+  }
+}

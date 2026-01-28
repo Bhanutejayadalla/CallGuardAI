@@ -1,0 +1,118 @@
+{
+  "common": {
+    "appName": "CallGuard AI",
+    "loading": "লোড হচ্ছে...",
+    "error": "একটি ত্রুটি ঘটেছে",
+    "save": "সংরক্ষণ করুন",
+    "cancel": "বাতিল করুন",
+    "delete": "মুছুন",
+    "edit": "সম্পাদনা করুন",
+    "search": "অনুসন্ধান করুন",
+    "filter": "ফিল্টার",
+    "export": "রপ্তানি করুন",
+    "refresh": "রিফ্রেশ করুন"
+  },
+  "nav": {
+    "home": "হোম",
+    "analyze": "বিশ্লেষণ",
+    "dashboard": "ড্যাশবোর্ড",
+    "history": "ইতিহাস",
+    "admin": "অ্যাডমিন"
+  },
+  "home": {
+    "title": "AI-চালিত কল জালিয়াতি সনাক্তকরণ",
+    "subtitle": "উন্নত মেশিন লার্নিং বিশ্লেষণ দিয়ে স্ক্যাম কল থেকে নিজেকে রক্ষা করুন",
+    "cta": "একটি কল বিশ্লেষণ করুন",
+    "features": {
+      "realtime": "রিয়েল-টাইম বিশ্লেষণ",
+      "realtimeDesc": "কথা বলার সময় তাৎক্ষণিক জালিয়াতি সনাক্তকরণ",
+      "multilingual": "বহুভাষিক সমর্থন",
+      "multilingualDesc": "ইংরেজি এবং প্রধান ভারতীয় ভাষা",
+      "explainable": "ব্যাখ্যাযোগ্য AI",
+      "explainableDesc": "কলগুলি কেন ফ্ল্যাগ করা হয়েছে তা বুঝুন"
+    },
+    "stats": {
+      "callsAnalyzed": "বিশ্লেষিত কল",
+      "fraudDetected": "জালিয়াতি সনাক্ত হয়েছে",
+      "accuracy": "নির্ভুলতা"
+    }
+  },
+  "analyze": {
+    "title": "কল বিশ্লেষণ করুন",
+    "subtitle": "অডিও আপলোড করুন, লাইভ রেকর্ড করুন, বা বিশ্লেষণের জন্য টেক্সট পেস্ট করুন",
+    "uploadTab": "অডিও আপলোড করুন",
+    "recordTab": "লাইভ রেকর্ড করুন",
+    "textTab": "টেক্সট পেস্ট করুন",
+    "dropzone": "অডিও ফাইল এখানে ড্রপ করুন বা ব্রাউজ করতে ক্লিক করুন",
+    "supportedFormats": "সমর্থিত ফরম্যাট: MP3, WAV, OGG, FLAC, M4A",
+    "callerNumber": "কলারের নম্বর (ঐচ্ছিক)",
+    "analyzeButton": "বিশ্লেষণ করুন",
+    "analyzing": "বিশ্লেষণ হচ্ছে...",
+    "results": "বিশ্লেষণের ফলাফল"
+  },
+  "results": {
+    "riskScore": "ঝুঁকি স্কোর",
+    "classification": "শ্রেণীবিভাগ",
+    "confidence": "আত্মবিশ্বাস",
+    "linguisticScore": "ভাষাগত স্কোর",
+    "acousticScore": "ধ্বনিগত স্কোর",
+    "behavioralScore": "আচরণগত স্কোর",
+    "transcript": "প্রতিলিপি",
+    "fraudIndicators": "জালিয়াতি সূচক",
+    "voiceAnalysis": "কণ্ঠ বিশ্লেষণ",
+    "detectedKeywords": "সনাক্ত কীওয়ার্ড",
+    "explanation": "AI ব্যাখ্যা"
+  },
+  "classifications": {
+    "safe": "নিরাপদ",
+    "spam": "স্প্যাম",
+    "fraud": "জালিয়াতি",
+    "phishing": "ফিশিং",
+    "robocall": "রোবোকল"
+  },
+  "dashboard": {
+    "title": "অ্যানালিটিক্স ড্যাশবোর্ড",
+    "totalCalls": "মোট কল",
+    "fraudDetected": "জালিয়াতি সনাক্ত হয়েছে",
+    "avgRiskScore": "গড় ঝুঁকি স্কোর",
+    "detectionRate": "সনাক্তকরণ হার",
+    "trends": "কল ট্রেন্ড",
+    "distribution": "ঝুঁকি বিতরণ",
+    "recentCalls": "সাম্প্রতিক কল",
+    "topIndicators": "শীর্ষ জালিয়াতি সূচক"
+  },
+  "history": {
+    "title": "কল ইতিহাস",
+    "noResults": "কোন কল পাওয়া যায়নি",
+    "viewDetails": "বিস্তারিত দেখুন"
+  },
+  "admin": {
+    "title": "অ্যাডমিন প্যানেল",
+    "rules": "সনাক্তকরণ নিয়ম",
+    "system": "সিস্টেম অবস্থা",
+    "addRule": "নিয়ম যোগ করুন",
+    "ruleName": "নিয়মের নাম",
+    "pattern": "প্যাটার্ন (রেগেক্স)",
+    "category": "বিভাগ",
+    "severity": "তীব্রতা",
+    "scoreImpact": "স্কোর প্রভাব"
+  },
+  "voice": {
+    "tone": "স্বর",
+    "speakingRate": "বলার গতি",
+    "stressLevel": "চাপের স্তর",
+    "naturalness": "স্বাভাবিকতা"
+  },
+  "indicators": {
+    "urgency_pressure": "জরুরী/চাপ কৌশল",
+    "financial_request": "আর্থিক অনুরোধ",
+    "identity_request": "পরিচয় তথ্য অনুরোধ",
+    "threat_language": "হুমকিমূলক ভাষা",
+    "too_good_to_be_true": "সত্য হতে খুব ভালো",
+    "authority_claim": "কর্তৃত্ব/অফিসিয়াল দাবি",
+    "callback_request": "কলব্যাক অনুরোধ",
+    "verification_bypass": "যাচাই বাইপাস",
+    "emotional_manipulation": "মানসিক হেরফের",
+    "time_pressure": "সময়ের চাপ"
+  }
+}

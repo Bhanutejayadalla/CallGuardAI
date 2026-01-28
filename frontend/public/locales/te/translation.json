@@ -1,0 +1,118 @@
+{
+  "common": {
+    "appName": "CallGuard AI",
+    "loading": "లోడ్ అవుతోంది...",
+    "error": "లోపం సంభవించింది",
+    "save": "సేవ్ చేయి",
+    "cancel": "రద్దు చేయి",
+    "delete": "తొలగించు",
+    "edit": "సవరించు",
+    "search": "శోధించు",
+    "filter": "ఫిల్టర్",
+    "export": "ఎగుమతి చేయి",
+    "refresh": "రిఫ్రెష్ చేయి"
+  },
+  "nav": {
+    "home": "హోమ్",
+    "analyze": "విశ్లేషణ",
+    "dashboard": "డాష్‌బోర్డ్",
+    "history": "చరిత్ర",
+    "admin": "అడ్మిన్"
+  },
+  "home": {
+    "title": "AI-ఆధారిత కాల్ మోసం గుర్తింపు",
+    "subtitle": "అధునాతన మెషిన్ లెర్నింగ్ విశ్లేషణతో స్కామ్ కాల్స్ నుండి మిమ్మల్ని రక్షించుకోండి",
+    "cta": "కాల్‌ను విశ్లేషించండి",
+    "features": {
+      "realtime": "రియల్-టైమ్ విశ్లేషణ",
+      "realtimeDesc": "మీరు మాట్లాడుతున్నప్పుడు తక్షణ మోసం గుర్తింపు",
+      "multilingual": "బహుభాషా మద్దతు",
+      "multilingualDesc": "ఇంగ్లీష్ మరియు ప్రధాన భారతీయ భాషలు",
+      "explainable": "వివరించదగిన AI",
+      "explainableDesc": "కాల్స్ ఎందుకు ఫ్లాగ్ చేయబడ్డాయో అర్థం చేసుకోండి"
+    },
+    "stats": {
+      "callsAnalyzed": "విశ్లేషించిన కాల్స్",
+      "fraudDetected": "మోసం కనుగొనబడింది",
+      "accuracy": "ఖచ్చితత్వం"
+    }
+  },
+  "analyze": {
+    "title": "కాల్‌ను విశ్లేషించండి",
+    "subtitle": "ఆడియో అప్‌లోడ్ చేయండి, లైవ్ రికార్డ్ చేయండి లేదా విశ్లేషణ కోసం టెక్స్ట్ పేస్ట్ చేయండి",
+    "uploadTab": "ఆడియో అప్‌లోడ్ చేయండి",
+    "recordTab": "లైవ్ రికార్డ్ చేయండి",
+    "textTab": "టెక్స్ట్ పేస్ట్ చేయండి",
+    "dropzone": "ఆడియో ఫైల్‌ను ఇక్కడ డ్రాప్ చేయండి లేదా బ్రౌజ్ చేయడానికి క్లిక్ చేయండి",
+    "supportedFormats": "మద్దతు ఉన్న ఫార్మాట్‌లు: MP3, WAV, OGG, FLAC, M4A",
+    "callerNumber": "కాలర్ నంబర్ (ఐచ్ఛికం)",
+    "analyzeButton": "విశ్లేషించు",
+    "analyzing": "విశ్లేషిస్తోంది...",
+    "results": "విశ్లేషణ ఫలితాలు"
+  },
+  "results": {
+    "riskScore": "ప్రమాద స్కోర్",
+    "classification": "వర్గీకరణ",
+    "confidence": "విశ్వాసం",
+    "linguisticScore": "భాషా స్కోర్",
+    "acousticScore": "ధ్వని స్కోర్",
+    "behavioralScore": "ప్రవర్తన స్కోర్",
+    "transcript": "ట్రాన్స్‌క్రిప్ట్",
+    "fraudIndicators": "మోసం సూచికలు",
+    "voiceAnalysis": "వాయిస్ విశ్లేషణ",
+    "detectedKeywords": "కనుగొన్న కీవర్డ్‌లు",
+    "explanation": "AI వివరణ"
+  },
+  "classifications": {
+    "safe": "సురక్షితం",
+    "spam": "స్పామ్",
+    "fraud": "మోసం",
+    "phishing": "ఫిషింగ్",
+    "robocall": "రోబోకాల్"
+  },
+  "dashboard": {
+    "title": "అనలిటిక్స్ డాష్‌బోర్డ్",
+    "totalCalls": "మొత్తం కాల్స్",
+    "fraudDetected": "మోసం కనుగొనబడింది",
+    "avgRiskScore": "సగటు ప్రమాద స్కోర్",
+    "detectionRate": "గుర్తింపు రేటు",
+    "trends": "కాల్ ట్రెండ్‌లు",
+    "distribution": "ప్రమాద పంపిణీ",
+    "recentCalls": "ఇటీవలి కాల్స్",
+    "topIndicators": "టాప్ మోసం సూచికలు"
+  },
+  "history": {
+    "title": "కాల్ చరిత్ర",
+    "noResults": "కాల్స్ కనుగొనబడలేదు",
+    "viewDetails": "వివరాలు చూడండి"
+  },
+  "admin": {
+    "title": "అడ్మిన్ ప్యానెల్",
+    "rules": "గుర్తింపు నియమాలు",
+    "system": "సిస్టమ్ స్థితి",
+    "addRule": "నియమం జోడించు",
+    "ruleName": "నియమం పేరు",
+    "pattern": "ప్యాటర్న్ (రెజెక్స్)",
+    "category": "వర్గం",
+    "severity": "తీవ్రత",
+    "scoreImpact": "స్కోర్ ప్రభావం"
+  },
+  "voice": {
+    "tone": "స్వరం",
+    "speakingRate": "మాట్లాడే వేగం",
+    "stressLevel": "ఒత్తిడి స్థాయి",
+    "naturalness": "సహజత్వం"
+  },
+  "indicators": {
+    "urgency_pressure": "అత్యవసరం/ఒత్తిడి వ్యూహాలు",
+    "financial_request": "ఆర్థిక అభ్యర్థన",
+    "identity_request": "గుర్తింపు సమాచార అభ్యర్థన",
+    "threat_language": "బెదిరింపు భాష",
+    "too_good_to_be_true": "నిజం అనిపించనంత మంచి",
+    "authority_claim": "అధికారం/అధికారిక దావా",
+    "callback_request": "కాల్‌బ్యాక్ అభ్యర్థన",
+    "verification_bypass": "ధృవీకరణ బైపాస్",
+    "emotional_manipulation": "భావోద్వేగ మానిప్యులేషన్",
+    "time_pressure": "సమయ ఒత్తిడి"
+  }
+}
