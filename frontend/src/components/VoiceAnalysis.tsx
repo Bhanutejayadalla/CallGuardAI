@@ -4,9 +4,10 @@ import clsx from 'clsx';
 import { VoiceCharacteristics, AcousticFeatures } from '../stores/analysisStore';
 
 interface VoiceAnalysisProps {
-  characteristics: VoiceCharacteristics;
-  features: AcousticFeatures;
+  features?: any;
+  characteristics?: any;
 }
+
 
 export default function VoiceAnalysis({ characteristics, features }: VoiceAnalysisProps) {
   const { t } = useTranslation();
