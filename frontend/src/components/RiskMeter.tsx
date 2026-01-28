@@ -16,7 +16,8 @@ export default function RiskMeter({ score, size = 'md', showLabel = true }: Risk
     return { level: 'Critical', color: 'text-danger-600', bgColor: 'bg-danger-600' };
   };
 
-  const { level, color, bgColor } = getRiskLevel(score);
+  const { level, color, bgColor: _bgColor } = getRiskLevel(score);
+  void _bgColor; // Suppress unused variable warning
   
   const sizeConfig = {
     sm: { width: 'w-32', height: 'h-32', text: 'text-2xl', subtext: 'text-xs' },

@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Volume2, Activity, Gauge, Zap, Brain } from 'lucide-react';
 import clsx from 'clsx';
-import { VoiceCharacteristics, AcousticFeatures } from '../stores/analysisStore';
 
 interface VoiceAnalysisProps {
   features?: any;

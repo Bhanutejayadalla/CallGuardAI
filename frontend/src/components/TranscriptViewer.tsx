@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { FileText, Globe } from 'lucide-react';
 import clsx from 'clsx';
-import { HighlightedPhrase } from '../stores/analysisStore';
 
 interface TranscriptViewerProps {
   transcript?: string;
@@ -29,6 +28,10 @@ export default function TranscriptViewer({ transcript, highlights, language }: T
 
   // Apply highlights to transcript
   const renderHighlightedTranscript = () => {
+    if (!transcript) {
+      return <p className="text-slate-500 italic">No transcript available</p>;
+    }
+    
     if (!highlights || highlights.length === 0) {
       return <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{transcript}</p>;
     }
@@ -50,7 +53,7 @@ export default function TranscriptViewer({ transcript, highlights, language }: T
       }
 
       // Add highlighted text
-      const highlightClass = getHighlightClass(highlight.category, highlight.severity);
+      const highlightClass = getHighlightClass(highlight.category);
       parts.push(
         <span
           key={`highlight-${index}`}
@@ -83,7 +86,7 @@ export default function TranscriptViewer({ transcript, highlights, language }: T
     return <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{parts}</p>;
   };
 
-  const getHighlightClass = (category: string, severity: string): string => {
+  const getHighlightClass = (category: string): string => {
     const base = {
       spam: 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300',
       fraud: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300',
