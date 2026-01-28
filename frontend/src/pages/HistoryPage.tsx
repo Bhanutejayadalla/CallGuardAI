@@ -12,7 +12,6 @@ import {
   Phone,
   Calendar,
   AlertTriangle,
-  Shield,
   ExternalLink,
 } from 'lucide-react';
 import clsx from 'clsx';
@@ -258,7 +257,7 @@ function CallCard({ call, index }: { call: CallRecord; index: number }) {
                 className="inline-flex items-center space-x-1 px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-xs text-slate-600 dark:text-slate-400"
               >
                 <AlertTriangle className="h-3 w-3 text-warning-500" />
-                <span className="capitalize">{indicator.indicator.replace(/_/g, ' ')}</span>
+                <span className="capitalize">{(indicator.type || indicator.category || '').replace(/_/g, ' ')}</span>
               </span>
             ))}
             {call.fraud_indicators.length > 3 && (

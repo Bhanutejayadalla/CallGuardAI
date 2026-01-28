@@ -4,8 +4,6 @@ import { motion } from 'framer-motion';
 import {
   BarChart,
   Bar,
-  LineChart,
-  Line,
   PieChart,
   Pie,
   Cell,
@@ -29,7 +27,7 @@ import {
 } from 'lucide-react';
 import clsx from 'clsx';
 
-import { getDashboard, getTrends, DashboardData } from '../services/api';
+import { getDashboard, getTrends } from '../services/api';
 
 const COLORS = {
   safe: '#22c55e',

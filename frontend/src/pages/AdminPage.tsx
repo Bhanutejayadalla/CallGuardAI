@@ -3,18 +3,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Settings,
   Shield,
-  Users,
   Database,
   Activity,
   Plus,
   Trash2,
-  Edit2,
   Save,
   X,
   Loader2,
-  AlertTriangle,
   Check,
   RefreshCw,
 } from 'lucide-react';
@@ -81,9 +77,9 @@ function RulesPanel() {
     is_active: true,
   });
 
-  const { data: rules, isLoading } = useQuery({
+  const { data: rules, isLoading } = useQuery<Rule[]>({
     queryKey: ['rules'],
-    queryFn: getRules,
+    queryFn: () => getRules(),
   });
 
   const createMutation = useMutation({

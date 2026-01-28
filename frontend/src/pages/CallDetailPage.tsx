@@ -9,7 +9,6 @@ import {
   Share2,
   AlertTriangle,
   Shield,
-  Phone,
   Clock,
   Calendar,
   Volume2,
@@ -24,7 +23,7 @@ import FraudIndicators from '../components/FraudIndicators';
 import VoiceAnalysis from '../components/VoiceAnalysis';
 
 export default function CallDetailPage() {
-  const { t } = useTranslation();
+  useTranslation();
   const { callId, id } = useParams<{ callId?: string; id?: string }>();
   const callIdParam = callId || id;
 
