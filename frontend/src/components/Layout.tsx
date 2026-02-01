@@ -1,6 +1,6 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Shield,
   Home,
@@ -15,9 +15,12 @@ import {
   Globe,
   Bell,
   Brain,
+  AlertTriangle,
+  ShieldAlert,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useThemeStore } from '../stores/themeStore';
+import { getRecentAlerts } from '../services/api';
 import clsx from 'clsx';
 
 interface LayoutProps {
@@ -32,12 +35,63 @@ const languages = [
   { code: 'te', name: 'తెలుగు', flag: '🇮🇳' },
 ];
 
+interface Alert {
+  alert_id: string;
+  call_id: string;
+  alert_type: string;
+  severity: string;
+  message: string;
+  risk_score: number;
+  timestamp: string;
+}
+
 export default function Layout({ children }: LayoutProps) {
   const { t, i18n } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
   const { isDark, toggleTheme } = useThemeStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const [isNotifMenuOpen, setIsNotifMenuOpen] = useState(false);
+  const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  // Fetch recent alerts
+  useEffect(() => {
+    const fetchAlerts = async () => {
+      try {
+        const data = await getRecentAlerts(5);
+        setAlerts(data || []);
+        setUnreadCount(data?.length || 0);
+      } catch (error) {
+        console.error('Failed to fetch alerts:', error);
+      }
+    };
+    fetchAlerts();
+    // Refresh every 30 seconds
+    const interval = setInterval(fetchAlerts, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const getSeverityColor = (severity: string) => {
+    switch (severity) {
+      case 'critical': return 'text-red-500 bg-red-100 dark:bg-red-900/30';
+      case 'high': return 'text-orange-500 bg-orange-100 dark:bg-orange-900/30';
+      case 'medium': return 'text-yellow-500 bg-yellow-100 dark:bg-yellow-900/30';
+      default: return 'text-blue-500 bg-blue-100 dark:bg-blue-900/30';
+    }
+  };
+
+  const formatTime = (timestamp: string) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+    const minutes = Math.floor(diff / 60000);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    return date.toLocaleDateString();
+  };
 
   const navItems = [
     { path: '/', label: t('nav.home'), icon: Home },
@@ -88,15 +142,106 @@ export default function Layout({ children }: LayoutProps) {
             {/* Right side controls */}
             <div className="flex items-center space-x-2">
               {/* Notifications */}
-              <button className="p-2 rounded-lg text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 relative">
-                <Bell className="h-5 w-5" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-danger-500 rounded-full"></span>
-              </button>
+              <div className="relative">
+                <button 
+                  onClick={() => {
+                    setIsNotifMenuOpen(!isNotifMenuOpen);
+                    setIsLangMenuOpen(false);
+                  }}
+                  className="p-2 rounded-lg text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 relative"
+                >
+                  <Bell className="h-5 w-5" />
+                  {unreadCount > 0 && (
+                    <span className="absolute top-1 right-1 w-2 h-2 bg-danger-500 rounded-full animate-pulse"></span>
+                  )}
+                </button>
+                
+                <AnimatePresence>
+                  {isNotifMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute right-0 mt-2 w-80 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden z-50"
+                    >
+                      <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                        <h3 className="font-semibold text-slate-900 dark:text-white">Notifications</h3>
+                        {unreadCount > 0 && (
+                          <span className="text-xs bg-danger-500 text-white px-2 py-0.5 rounded-full">
+                            {unreadCount} new
+                          </span>
+                        )}
+                      </div>
+                      
+                      <div className="max-h-80 overflow-y-auto">
+                        {alerts.length === 0 ? (
+                          <div className="p-4 text-center text-slate-500 dark:text-slate-400">
+                            <Bell className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                            <p>No recent alerts</p>
+                          </div>
+                        ) : (
+                          alerts.map((alert) => (
+                            <button
+                              key={alert.alert_id}
+                              onClick={() => {
+                                navigate(`/history/${alert.call_id}`);
+                                setIsNotifMenuOpen(false);
+                              }}
+                              className="w-full px-4 py-3 text-left hover:bg-slate-50 dark:hover:bg-slate-700/50 border-b border-slate-100 dark:border-slate-700 last:border-0"
+                            >
+                              <div className="flex items-start space-x-3">
+                                <div className={clsx('p-2 rounded-lg flex-shrink-0', getSeverityColor(alert.severity))}>
+                                  {alert.alert_type === 'fraud' ? (
+                                    <ShieldAlert className="h-4 w-4" />
+                                  ) : (
+                                    <AlertTriangle className="h-4 w-4" />
+                                  )}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm font-medium text-slate-900 dark:text-white truncate">
+                                    {alert.message}
+                                  </p>
+                                  <div className="flex items-center space-x-2 mt-1">
+                                    <span className={clsx(
+                                      'text-xs px-1.5 py-0.5 rounded font-medium',
+                                      alert.severity === 'critical' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' :
+                                      alert.severity === 'high' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400' :
+                                      'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
+                                    )}>
+                                      {alert.severity.toUpperCase()}
+                                    </span>
+                                    <span className="text-xs text-slate-500">{formatTime(alert.timestamp)}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </button>
+                          ))
+                        )}
+                      </div>
+                      
+                      <div className="px-4 py-2 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
+                        <button
+                          onClick={() => {
+                            navigate('/history');
+                            setIsNotifMenuOpen(false);
+                          }}
+                          className="w-full text-center text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400 font-medium"
+                        >
+                          View all history
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
 
               {/* Language selector */}
               <div className="relative">
                 <button
-                  onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                  onClick={() => {
+                    setIsLangMenuOpen(!isLangMenuOpen);
+                    setIsNotifMenuOpen(false);
+                  }}
                   className="p-2 rounded-lg text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
                 >
                   <Globe className="h-5 w-5" />

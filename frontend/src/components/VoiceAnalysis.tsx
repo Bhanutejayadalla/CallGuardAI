@@ -51,47 +51,47 @@ export default function VoiceAnalysis({ characteristics, features }: VoiceAnalys
         </h3>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Tone */}
-        <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4">
-          <div className="flex items-center space-x-2 mb-2">
-            <Activity className="h-4 w-4 text-slate-400" />
+        <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4 min-w-0">
+          <div className="flex items-center space-x-2 mb-3">
+            <Activity className="h-4 w-4 text-slate-400 flex-shrink-0" />
             <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Tone</span>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="text-2xl">{getToneEmoji(characteristics.tone)}</span>
-            <span className="text-lg font-semibold text-slate-900 dark:text-white capitalize">
-              {characteristics.tone || 'Neutral'}
+            <span className="text-2xl flex-shrink-0">{getToneEmoji(characteristics?.tone)}</span>
+            <span className="text-base font-semibold text-slate-900 dark:text-white capitalize truncate">
+              {characteristics?.tone || 'Neutral'}
             </span>
           </div>
         </div>
 
         {/* Speaking Speed */}
-        <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4">
-          <div className="flex items-center space-x-2 mb-2">
-            <Gauge className="h-4 w-4 text-slate-400" />
+        <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4 min-w-0">
+          <div className="flex items-center space-x-2 mb-3">
+            <Gauge className="h-4 w-4 text-slate-400 flex-shrink-0" />
             <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Speed</span>
           </div>
-          <div className="flex items-center space-x-2">
-            <span className={clsx('text-lg font-semibold', speedConfig.color)}>
+          <div className="flex flex-col">
+            <span className={clsx('text-base font-semibold', speedConfig.color)}>
               {speedConfig.label}
             </span>
             {safeFeatures.speaking_rate && (
-              <span className="text-sm text-slate-500">
-                ({Math.round(safeFeatures.speaking_rate)} WPM)
+              <span className="text-xs text-slate-500 mt-1">
+                {Math.round(safeFeatures.speaking_rate)} WPM
               </span>
             )}
           </div>
         </div>
 
         {/* Stress Level */}
-        <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4">
-          <div className="flex items-center space-x-2 mb-2">
-            <Zap className="h-4 w-4 text-slate-400" />
+        <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4 min-w-0">
+          <div className="flex items-center space-x-2 mb-3">
+            <Zap className="h-4 w-4 text-slate-400 flex-shrink-0" />
             <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Stress</span>
           </div>
           <div className="space-y-2">
-            <span className={clsx('text-lg font-semibold', stressConfig.color)}>
+            <span className={clsx('text-base font-semibold', stressConfig.color)}>
               {stressConfig.label}
             </span>
             <div className="h-2 bg-slate-200 dark:bg-slate-600 rounded-full overflow-hidden">
@@ -104,18 +104,18 @@ export default function VoiceAnalysis({ characteristics, features }: VoiceAnalys
         </div>
 
         {/* Naturalness */}
-        <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4">
-          <div className="flex items-center space-x-2 mb-2">
-            <Brain className="h-4 w-4 text-slate-400" />
+        <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-4 min-w-0">
+          <div className="flex items-center space-x-2 mb-3">
+            <Brain className="h-4 w-4 text-slate-400 flex-shrink-0" />
             <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Naturalness</span>
           </div>
           <div className="space-y-2">
             <span className={clsx(
-              'text-lg font-semibold',
-              (characteristics.naturalness || 1) > 0.7 ? 'text-success-500' :
-              (characteristics.naturalness || 1) > 0.4 ? 'text-warning-500' : 'text-danger-500'
+              'text-base font-semibold',
+              (characteristics?.naturalness || 1) > 0.7 ? 'text-success-500' :
+              (characteristics?.naturalness || 1) > 0.4 ? 'text-warning-500' : 'text-danger-500'
             )}>
-              {((characteristics.naturalness || 1) * 100).toFixed(0)}%
+              {((characteristics?.naturalness || 1) * 100).toFixed(0)}%
             </span>
             <p className="text-xs text-slate-500 dark:text-slate-400">
               {(characteristics.naturalness || 1) > 0.7 ? 'Likely human voice' :
