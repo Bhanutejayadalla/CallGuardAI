@@ -353,7 +353,7 @@ class NLPAnalyzer:
         Detect the language of the text
         """
         try:
-            from langdetect import detect
+            from langdetect import detect  # type: ignore[import-not-found]
             return detect(text)
         except:
             # Simple heuristic for common languages

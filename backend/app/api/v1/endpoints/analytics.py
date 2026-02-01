@@ -45,22 +45,23 @@ async def get_dashboard(
     total_risk_score = 0
     
     for call in calls:
-        if call.classification:
+        if call.classification:  # type: ignore[truthy-bool]
             classification_counts[call.classification.value] += 1
         
         # Risk distribution buckets
-        if call.risk_score < 20:
+        risk_score = float(call.risk_score or 0)  # type: ignore[arg-type]
+        if risk_score < 20:
             risk_distribution["0-20"] += 1
-        elif call.risk_score < 40:
+        elif risk_score < 40:
             risk_distribution["20-40"] += 1
-        elif call.risk_score < 60:
+        elif risk_score < 60:
             risk_distribution["40-60"] += 1
-        elif call.risk_score < 80:
+        elif risk_score < 80:
             risk_distribution["60-80"] += 1
         else:
             risk_distribution["80-100"] += 1
         
-        total_risk_score += call.risk_score
+        total_risk_score += risk_score
     
     avg_risk_score = total_risk_score / total_calls if total_calls > 0 else 0
     
@@ -96,16 +97,17 @@ async def get_dashboard(
         "id": call.id,
         "call_id": call.call_id,
         "caller_number": call.caller_number,
-        "classification": call.classification.value if call.classification else "unknown",
+        "classification": call.classification.value if call.classification else "unknown",  # type: ignore[truthy-bool]
         "risk_score": call.risk_score,
-        "created_at": call.created_at.isoformat()
+        "created_at": call.created_at.isoformat()  # type: ignore[union-attr]
     } for call in recent_calls]
     
     # Get top fraud indicators
-    fraud_indicator_counts = defaultdict(int)
+    fraud_indicator_counts: defaultdict[str, int] = defaultdict(int)
     for call in calls:
-        if call.fraud_indicators:
-            for indicator in call.fraud_indicators:
+        indicators = call.fraud_indicators  # type: ignore[assignment]
+        if indicators:  # type: ignore[truthy-bool]
+            for indicator in indicators:
                 if isinstance(indicator, dict):
                     fraud_indicator_counts[indicator.get("type", "unknown")] += 1
                 else:
@@ -156,11 +158,11 @@ async def get_trends(
     })
     
     for call in calls:
-        date_key = call.created_at.strftime("%Y-%m-%d")
+        date_key = call.created_at.strftime("%Y-%m-%d")  # type: ignore[union-attr]
         daily_data[date_key]["total"] += 1
-        daily_data[date_key]["risk_sum"] += call.risk_score
+        daily_data[date_key]["risk_sum"] += float(call.risk_score or 0)  # type: ignore[arg-type]
         
-        if call.classification:
+        if call.classification:  # type: ignore[truthy-bool]
             cls = call.classification.value
             if cls in daily_data[date_key]:
                 daily_data[date_key][cls] += 1
@@ -242,12 +244,13 @@ async def get_top_keywords(
     )
     calls = result.scalars().all()
     
-    keyword_counts = defaultdict(int)
+    keyword_counts: defaultdict[str, int] = defaultdict(int)
     
     for call in calls:
-        if call.suspicious_keywords:
-            for keyword in call.suspicious_keywords:
-                keyword_counts[keyword.lower()] += 1
+        keywords = call.suspicious_keywords  # type: ignore[assignment]
+        if keywords:  # type: ignore[truthy-bool]
+            for keyword in keywords:
+                keyword_counts[str(keyword).lower()] += 1
     
     sorted_keywords = sorted(keyword_counts.items(), key=lambda x: -x[1])[:limit]
     
@@ -282,12 +285,12 @@ async def get_classification_stats(
     
     stats = {}
     for cls in CallClassification:
-        cls_calls = [c for c in calls if c.classification == cls]
+        cls_calls = [c for c in calls if c.classification == cls]  # type: ignore[truthy-bool]
         if cls_calls:
             stats[cls.value] = {
                 "count": len(cls_calls),
-                "avg_risk_score": round(sum(c.risk_score for c in cls_calls) / len(cls_calls), 2),
-                "avg_confidence": round(sum(c.confidence_score for c in cls_calls) / len(cls_calls), 2),
+                "avg_risk_score": round(sum(float(c.risk_score or 0) for c in cls_calls) / len(cls_calls), 2),  # type: ignore[arg-type]
+                "avg_confidence": round(sum(float(c.confidence_score or 0) for c in cls_calls) / len(cls_calls), 2),  # type: ignore[arg-type]
                 "percentage": round(len(cls_calls) / len(calls) * 100, 2) if calls else 0
             }
     

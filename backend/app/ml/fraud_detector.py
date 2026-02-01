@@ -4,7 +4,7 @@ Multi-signal analysis combining linguistic, acoustic, and behavioral patterns
 """
 
 import re
-from typing import Dict, List, Tuple, Any
+from typing import Dict, List, Tuple, Any, Optional
 from dataclasses import dataclass
 from loguru import logger
 import math
@@ -146,8 +146,8 @@ class FraudDetector:
             r"you (?:are|have been) (?:selected|chosen|approved)"
         ]
     
-    def detect(self, text: str, acoustic_features: Dict = None, 
-               behavioral_data: Dict = None) -> Dict[str, Any]:
+    def detect(self, text: str, acoustic_features: Optional[Dict[str, Any]] = None, 
+               behavioral_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Perform comprehensive fraud detection analysis
         
@@ -429,20 +429,20 @@ class FraudDetector:
     
     def _calculate_scores(self, signals: List[FraudSignal]) -> Dict[str, float]:
         """Calculate composite scores from all signals"""
-        category_scores = {
-            "spam": 0,
-            "fraud": 0,
-            "phishing": 0,
-            "robocall": 0,
-            "general": 0
+        category_scores: Dict[str, float] = {
+            "spam": 0.0,
+            "fraud": 0.0,
+            "phishing": 0.0,
+            "robocall": 0.0,
+            "general": 0.0
         }
         
-        category_weights = {
-            "spam": 0,
-            "fraud": 0,
-            "phishing": 0,
-            "robocall": 0,
-            "general": 0
+        category_weights: Dict[str, float] = {
+            "spam": 0.0,
+            "fraud": 0.0,
+            "phishing": 0.0,
+            "robocall": 0.0,
+            "general": 0.0
         }
         
         for signal in signals:
@@ -494,7 +494,7 @@ class FraudDetector:
             "robocall": scores["robocall"]
         }
         
-        max_category = max(category_scores, key=category_scores.get)
+        max_category = max(category_scores, key=lambda k: category_scores[k])
         max_score = category_scores[max_category]
         
         # Apply thresholds

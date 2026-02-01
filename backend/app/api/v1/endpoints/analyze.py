@@ -2,6 +2,7 @@
 Analysis Endpoints
 """
 
+from typing import Optional
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends, BackgroundTasks
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -22,9 +23,8 @@ router = APIRouter()
 @router.post("/upload", response_model=AnalysisResult)
 async def analyze_audio_upload(
     file: UploadFile = File(...),
-    caller_number: str = None,
-    callee_number: str = None,
-    background_tasks: BackgroundTasks = None,
+    caller_number: Optional[str] = None,
+    callee_number: Optional[str] = None,
     db: AsyncSession = Depends(get_db)
 ):
     """
@@ -78,26 +78,26 @@ async def analyze_audio_upload(
         result = await analysis_service.analyze_audio(file_path, call_id)
         
         # Update call record with results
-        call.status = CallStatus.COMPLETED
-        call.transcript = result.transcript
-        call.transcript_language = result.transcript_language
-        call.transcript_confidence = result.transcript_confidence
-        call.classification = CallClassification(result.classification)
-        call.risk_score = result.risk_score
-        call.spam_score = result.spam_score
-        call.fraud_score = result.fraud_score
-        call.phishing_score = result.phishing_score
-        call.robocall_score = result.robocall_score
-        call.suspicious_keywords = result.suspicious_keywords
-        call.fraud_indicators = result.fraud_indicators
-        call.highlighted_phrases = result.highlighted_phrases
-        call.acoustic_features = result.acoustic_features
-        call.voice_characteristics = result.voice_characteristics
-        call.behavioral_patterns = result.behavioral_patterns
-        call.intent_analysis = result.intent_analysis
-        call.ai_explanation = result.ai_explanation
-        call.confidence_score = result.confidence_score
-        call.analyzed_at = datetime.utcnow()
+        call.status = CallStatus.COMPLETED  # type: ignore[assignment]
+        call.transcript = result.transcript  # type: ignore[assignment]
+        call.transcript_language = result.transcript_language  # type: ignore[assignment]
+        call.transcript_confidence = result.transcript_confidence  # type: ignore[assignment]
+        call.classification = CallClassification(result.classification)  # type: ignore[assignment]
+        call.risk_score = result.risk_score  # type: ignore[assignment]
+        call.spam_score = result.spam_score  # type: ignore[assignment]
+        call.fraud_score = result.fraud_score  # type: ignore[assignment]
+        call.phishing_score = result.phishing_score  # type: ignore[assignment]
+        call.robocall_score = result.robocall_score  # type: ignore[assignment]
+        call.suspicious_keywords = result.suspicious_keywords  # type: ignore[assignment]
+        call.fraud_indicators = result.fraud_indicators  # type: ignore[assignment]
+        call.highlighted_phrases = result.highlighted_phrases  # type: ignore[assignment]
+        call.acoustic_features = result.acoustic_features  # type: ignore[assignment]
+        call.voice_characteristics = result.voice_characteristics  # type: ignore[assignment]
+        call.behavioral_patterns = result.behavioral_patterns  # type: ignore[assignment]
+        call.intent_analysis = result.intent_analysis  # type: ignore[assignment]
+        call.ai_explanation = result.ai_explanation  # type: ignore[assignment]
+        call.confidence_score = result.confidence_score  # type: ignore[assignment]
+        call.analyzed_at = datetime.utcnow()  # type: ignore[assignment]
         
         await db.commit()
         
@@ -108,7 +108,7 @@ async def analyze_audio_upload(
     except Exception as e:
         logger.error(f"Error analyzing audio: {str(e)}")
         # Update call status to failed
-        call.status = CallStatus.FAILED
+        call.status = CallStatus.FAILED  # type: ignore[assignment]
         await db.commit()
         raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
 
@@ -116,7 +116,7 @@ async def analyze_audio_upload(
 @router.post("/text", response_model=AnalysisResult)
 async def analyze_text(
     text: str,
-    caller_number: str = None,
+    caller_number: Optional[str] = None,
     db: AsyncSession = Depends(get_db)
 ):
     """
@@ -142,20 +142,20 @@ async def analyze_text(
         result = await analysis_service.analyze_text(text, call_id)
         
         # Update call record
-        call.status = CallStatus.COMPLETED
-        call.classification = CallClassification(result.classification)
-        call.risk_score = result.risk_score
-        call.spam_score = result.spam_score
-        call.fraud_score = result.fraud_score
-        call.phishing_score = result.phishing_score
-        call.robocall_score = result.robocall_score
-        call.suspicious_keywords = result.suspicious_keywords
-        call.fraud_indicators = result.fraud_indicators
-        call.highlighted_phrases = result.highlighted_phrases
-        call.intent_analysis = result.intent_analysis
-        call.ai_explanation = result.ai_explanation
-        call.confidence_score = result.confidence_score
-        call.analyzed_at = datetime.utcnow()
+        call.status = CallStatus.COMPLETED  # type: ignore[assignment]
+        call.classification = CallClassification(result.classification)  # type: ignore[assignment]
+        call.risk_score = result.risk_score  # type: ignore[assignment]
+        call.spam_score = result.spam_score  # type: ignore[assignment]
+        call.fraud_score = result.fraud_score  # type: ignore[assignment]
+        call.phishing_score = result.phishing_score  # type: ignore[assignment]
+        call.robocall_score = result.robocall_score  # type: ignore[assignment]
+        call.suspicious_keywords = result.suspicious_keywords  # type: ignore[assignment]
+        call.fraud_indicators = result.fraud_indicators  # type: ignore[assignment]
+        call.highlighted_phrases = result.highlighted_phrases  # type: ignore[assignment]
+        call.intent_analysis = result.intent_analysis  # type: ignore[assignment]
+        call.ai_explanation = result.ai_explanation  # type: ignore[assignment]
+        call.confidence_score = result.confidence_score  # type: ignore[assignment]
+        call.analyzed_at = datetime.utcnow()  # type: ignore[assignment]
         
         await db.commit()
         
@@ -163,7 +163,7 @@ async def analyze_text(
         
     except Exception as e:
         logger.error(f"Error analyzing text: {str(e)}")
-        call.status = CallStatus.FAILED
+        call.status = CallStatus.FAILED  # type: ignore[assignment]
         await db.commit()
         raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
 
@@ -185,7 +185,7 @@ async def get_analysis_status(
     return {
         "call_id": call.call_id,
         "status": call.status.value,
-        "classification": call.classification.value if call.classification else None,
+        "classification": call.classification.value if call.classification else None,  # type: ignore[truthy-bool]
         "risk_score": call.risk_score,
-        "progress": 100 if call.status == CallStatus.COMPLETED else 50
+        "progress": 100 if call.status == CallStatus.COMPLETED else 50  # type: ignore[comparison-overlap]
     }

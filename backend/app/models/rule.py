@@ -38,9 +38,9 @@ class DetectionRule(Base):
     category = Column(Enum(RuleCategory), default=RuleCategory.GENERAL)
     
     # Rule definition
-    keywords = Column(JSON, default=list)  # List of keywords/phrases
-    patterns = Column(JSON, default=list)  # Regex patterns
-    conditions = Column(JSON, default=dict)  # Complex conditions
+    keywords: Column[JSON] = Column(JSON, default=lambda: [])  # type: ignore[assignment]
+    patterns: Column[JSON] = Column(JSON, default=lambda: [])  # type: ignore[assignment]
+    conditions: Column[JSON] = Column(JSON, default=lambda: {})  # type: ignore[assignment]
     
     # Scoring
     weight = Column(Float, default=1.0)
@@ -48,7 +48,7 @@ class DetectionRule(Base):
     
     # Multilingual support
     language = Column(String(10), default="en")
-    translations = Column(JSON, default=dict)
+    translations: Column[JSON] = Column(JSON, default=lambda: {})  # type: ignore[assignment]
     
     # Status
     is_active = Column(Boolean, default=True)
@@ -64,8 +64,8 @@ class DetectionRule(Base):
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "rule_type": self.rule_type.value if self.rule_type else None,
-            "category": self.category.value if self.category else None,
+            "rule_type": self.rule_type.value if self.rule_type else None,  # type: ignore[truthy-bool]
+            "category": self.category.value if self.category else None,  # type: ignore[truthy-bool]
             "keywords": self.keywords,
             "patterns": self.patterns,
             "conditions": self.conditions,
@@ -73,7 +73,7 @@ class DetectionRule(Base):
             "language": self.language,
             "is_active": self.is_active,
             "priority": self.priority,
-            "created_at": self.created_at.isoformat() if self.created_at else None
+            "created_at": self.created_at.isoformat() if self.created_at else None  # type: ignore[truthy-bool]
         }
 
 

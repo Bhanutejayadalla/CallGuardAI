@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from jose import JWTError, jwt
-from passlib.context import CryptContext
+import bcrypt
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -18,19 +18,16 @@ from app.models.user import User, UserRole
 
 router = APIRouter()
 
-# Password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 # OAuth2 scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token", auto_error=False)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
 
 
 def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
@@ -51,7 +48,7 @@ async def get_current_user(
     
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        username: str = payload.get("sub")
+        username: Optional[str] = payload.get("sub")
         if username is None:
             return None
     except JWTError:
@@ -73,7 +70,7 @@ async def get_current_active_user(
             detail="Not authenticated",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    if not current_user.is_active:
+    if not current_user.is_active:  # type: ignore[truthy-bool]
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
@@ -82,7 +79,7 @@ async def get_admin_user(
     current_user: User = Depends(get_current_active_user)
 ) -> User:
     """Require admin user"""
-    if current_user.role != UserRole.ADMIN:
+    if current_user.role != UserRole.ADMIN:  # type: ignore[truthy-bool]
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Admin access required"
@@ -124,15 +121,15 @@ async def register(
     await db.refresh(user)
     
     return UserResponse(
-        id=user.id,
-        email=user.email,
-        username=user.username,
-        full_name=user.full_name,
+        id=int(user.id),  # type: ignore[arg-type]
+        email=str(user.email),  # type: ignore[arg-type]
+        username=str(user.username),  # type: ignore[arg-type]
+        full_name=str(user.full_name) if user.full_name else None,  # type: ignore[arg-type]
         role=user.role.value,
-        is_active=user.is_active,
-        preferred_language=user.preferred_language,
-        dark_mode=user.dark_mode,
-        created_at=user.created_at
+        is_active=bool(user.is_active),  # type: ignore[arg-type]
+        preferred_language=str(user.preferred_language),  # type: ignore[arg-type]
+        dark_mode=bool(user.dark_mode),  # type: ignore[arg-type]
+        created_at=user.created_at  # type: ignore[arg-type]
     )
 
 
@@ -147,18 +144,18 @@ async def login(
     )
     user = result.scalar_one_or_none()
     
-    if not user or not verify_password(form_data.password, user.hashed_password):
+    if not user or not verify_password(form_data.password, str(user.hashed_password)):  # type: ignore[arg-type]
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    if not user.is_active:
+    if not user.is_active:  # type: ignore[truthy-bool]
         raise HTTPException(status_code=400, detail="Inactive user")
     
     # Update last login
-    user.last_login = datetime.utcnow()
+    user.last_login = datetime.utcnow()  # type: ignore[assignment]
     await db.commit()
     
     access_token = create_access_token(
@@ -179,17 +176,17 @@ async def login_json(
     )
     user = result.scalar_one_or_none()
     
-    if not user or not verify_password(credentials.password, user.hashed_password):
+    if not user or not verify_password(credentials.password, str(user.hashed_password)):  # type: ignore[arg-type]
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password"
         )
     
-    if not user.is_active:
+    if not user.is_active:  # type: ignore[truthy-bool]
         raise HTTPException(status_code=400, detail="Inactive user")
     
     # Update last login
-    user.last_login = datetime.utcnow()
+    user.last_login = datetime.utcnow()  # type: ignore[assignment]
     await db.commit()
     
     access_token = create_access_token(
@@ -205,15 +202,15 @@ async def get_me(
 ):
     """Get current user profile"""
     return UserResponse(
-        id=current_user.id,
-        email=current_user.email,
-        username=current_user.username,
-        full_name=current_user.full_name,
+        id=int(current_user.id),  # type: ignore[arg-type]
+        email=str(current_user.email),  # type: ignore[arg-type]
+        username=str(current_user.username),  # type: ignore[arg-type]
+        full_name=str(current_user.full_name) if current_user.full_name else None,  # type: ignore[arg-type]
         role=current_user.role.value,
-        is_active=current_user.is_active,
-        preferred_language=current_user.preferred_language,
-        dark_mode=current_user.dark_mode,
-        created_at=current_user.created_at
+        is_active=bool(current_user.is_active),  # type: ignore[arg-type]
+        preferred_language=str(current_user.preferred_language),  # type: ignore[arg-type]
+        dark_mode=bool(current_user.dark_mode),  # type: ignore[arg-type]
+        created_at=current_user.created_at  # type: ignore[arg-type]
     )
 
 
@@ -227,13 +224,13 @@ async def update_preferences(
 ):
     """Update user preferences"""
     if dark_mode is not None:
-        current_user.dark_mode = dark_mode
+        current_user.dark_mode = dark_mode  # type: ignore[assignment]
     if preferred_language is not None:
-        current_user.preferred_language = preferred_language
+        current_user.preferred_language = preferred_language  # type: ignore[assignment]
     if notification_enabled is not None:
-        current_user.notification_enabled = notification_enabled
+        current_user.notification_enabled = notification_enabled  # type: ignore[assignment]
     
-    current_user.updated_at = datetime.utcnow()
+    current_user.updated_at = datetime.utcnow()  # type: ignore[assignment]
     await db.commit()
     
     return {"message": "Preferences updated successfully"}

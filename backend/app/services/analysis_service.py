@@ -9,7 +9,7 @@ from loguru import logger
 import asyncio
 import numpy as np
 
-from app.api.schemas import AnalysisResult
+from app.api.schemas import AnalysisResult, StatusType
 from app.ml.speech_to_text import SpeechToText, AudioProcessor
 from app.ml.fraud_detector import FraudDetector
 from app.ml.nlp_analyzer import NLPAnalyzer
@@ -21,9 +21,9 @@ def convert_numpy_types(obj: Any) -> Any:
     """
     if isinstance(obj, np.ndarray):
         return obj.tolist()
-    elif isinstance(obj, (np.float32, np.float64, np.floating)):
+    elif isinstance(obj, (np.float32, np.float64, np.floating)):  # type: ignore[arg-type]
         return float(obj)
-    elif isinstance(obj, (np.int32, np.int64, np.integer)):
+    elif isinstance(obj, (np.int32, np.int64, np.integer)):  # type: ignore[arg-type]
         return int(obj)
     elif isinstance(obj, np.bool_):
         return bool(obj)
@@ -109,7 +109,7 @@ class AnalysisService:
             # Compile final result
             result = AnalysisResult(
                 call_id=call_id,
-                status="completed",
+                status=StatusType.COMPLETED,
                 classification=fraud_result["classification"],
                 risk_score=float(fraud_result["risk_score"]),
                 spam_score=float(fraud_result["spam_score"]),
@@ -170,7 +170,7 @@ class AnalysisService:
             # Fraud detection (text only)
             fraud_result = self.fraud_detector.detect(
                 text=text,
-                acoustic_features=None,
+                acoustic_features={},
                 behavioral_data=behavioral_data
             )
             
@@ -181,7 +181,7 @@ class AnalysisService:
             
             result = AnalysisResult(
                 call_id=call_id,
-                status="completed",
+                status=StatusType.COMPLETED,
                 classification=fraud_result["classification"],
                 risk_score=float(fraud_result["risk_score"]),
                 spam_score=float(fraud_result["spam_score"]),

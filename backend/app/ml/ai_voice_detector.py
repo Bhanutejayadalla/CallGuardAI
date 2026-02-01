@@ -429,7 +429,7 @@ class AIVoiceDetector:
     
     def _analyze_features(self, features: Dict[str, Any], language: str) -> Dict[str, Any]:
         """Analyze extracted features for AI detection"""
-        analysis = {
+        analysis: Dict[str, Any] = {
             "ai_indicators": [],
             "human_indicators": [],
             "ai_score_components": [],

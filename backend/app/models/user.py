@@ -53,9 +53,9 @@ class User(Base):
             "email": self.email,
             "username": self.username,
             "full_name": self.full_name,
-            "role": self.role.value if self.role else None,
+            "role": self.role.value if self.role else None,  # type: ignore[truthy-bool]
             "is_active": self.is_active,
             "preferred_language": self.preferred_language,
             "dark_mode": self.dark_mode,
-            "created_at": self.created_at.isoformat() if self.created_at else None
+            "created_at": self.created_at.isoformat() if self.created_at else None  # type: ignore[truthy-bool]
         }

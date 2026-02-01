@@ -61,17 +61,17 @@ class Call(Base):
     robocall_score = Column(Float, default=0)
     
     # Fraud indicators
-    suspicious_keywords = Column(JSON, default=list)
-    fraud_indicators = Column(JSON, default=list)
-    highlighted_phrases = Column(JSON, default=list)
+    suspicious_keywords: Column[JSON] = Column(JSON, default=lambda: [])  # type: ignore[assignment]
+    fraud_indicators: Column[JSON] = Column(JSON, default=lambda: [])  # type: ignore[assignment]
+    highlighted_phrases: Column[JSON] = Column(JSON, default=lambda: [])  # type: ignore[assignment]
     
     # Acoustic analysis
-    acoustic_features = Column(JSON, default=dict)
-    voice_characteristics = Column(JSON, default=dict)
+    acoustic_features: Column[JSON] = Column(JSON, default=lambda: {})  # type: ignore[assignment]
+    voice_characteristics: Column[JSON] = Column(JSON, default=lambda: {})  # type: ignore[assignment]
     
     # Behavioral analysis
-    behavioral_patterns = Column(JSON, default=dict)
-    intent_analysis = Column(JSON, default=dict)
+    behavioral_patterns: Column[JSON] = Column(JSON, default=lambda: {})  # type: ignore[assignment]
+    intent_analysis: Column[JSON] = Column(JSON, default=lambda: {})  # type: ignore[assignment]
     
     # AI explanation
     ai_explanation = Column(Text, nullable=True)
@@ -95,11 +95,11 @@ class Call(Base):
             "caller_number": self.caller_number,
             "callee_number": self.callee_number,
             "duration_seconds": self.duration_seconds,
-            "call_timestamp": self.call_timestamp.isoformat() if self.call_timestamp else None,
+            "call_timestamp": self.call_timestamp.isoformat() if self.call_timestamp else None,  # type: ignore[truthy-bool]
             "transcript": self.transcript,
             "transcript_language": self.transcript_language,
-            "status": self.status.value if self.status else None,
-            "classification": self.classification.value if self.classification else None,
+            "status": self.status.value if self.status else None,  # type: ignore[truthy-bool]
+            "classification": self.classification.value if self.classification else None,  # type: ignore[truthy-bool]
             "risk_score": self.risk_score,
             "spam_score": self.spam_score,
             "fraud_score": self.fraud_score,
@@ -114,8 +114,8 @@ class Call(Base):
             "intent_analysis": self.intent_analysis,
             "ai_explanation": self.ai_explanation,
             "confidence_score": self.confidence_score,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-            "analyzed_at": self.analyzed_at.isoformat() if self.analyzed_at else None
+            "created_at": self.created_at.isoformat() if self.created_at else None,  # type: ignore[truthy-bool]
+            "analyzed_at": self.analyzed_at.isoformat() if self.analyzed_at else None  # type: ignore[truthy-bool]
         }
 
 

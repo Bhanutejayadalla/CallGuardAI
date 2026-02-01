@@ -6,7 +6,7 @@ Converts audio to text using speech recognition
 import os
 import io
 import asyncio
-from typing import Optional, Dict, Tuple
+from typing import Optional, Dict, Tuple, Any
 from loguru import logger
 import numpy as np
 
@@ -41,7 +41,7 @@ class SpeechToText:
                 return None
         return self.whisper_model
     
-    async def transcribe(self, audio_path: str, language: str = None) -> Dict:
+    async def transcribe(self, audio_path: str, language: Optional[str] = None) -> Dict[str, Any]:
         """
         Transcribe audio file to text
         
@@ -92,7 +92,7 @@ class SpeechToText:
             "error": error_msg
         }
     
-    async def _transcribe_whisper(self, audio_path: str, language: str = None) -> Dict:
+    async def _transcribe_whisper(self, audio_path: str, language: Optional[str] = None) -> Dict[str, Any]:
         """Transcribe using OpenAI Whisper"""
         try:
             # Get the preloaded or load new model
@@ -104,7 +104,7 @@ class SpeechToText:
             
             # Run transcription in thread pool to not block
             loop = asyncio.get_event_loop()
-            result = await loop.run_in_executor(
+            result: Dict[str, Any] = await loop.run_in_executor(
                 None,
                 lambda: model.transcribe(
                     audio_path,
@@ -113,23 +113,25 @@ class SpeechToText:
                 )
             )
             
-            transcript = result["text"].strip()
+            text_result = result.get("text", "")
+            transcript = text_result.strip() if isinstance(text_result, str) else str(text_result)
             logger.info(f"Transcription complete: {len(transcript)} chars")
             
+            segments = result.get("segments", [])
             return {
                 "transcript": transcript,
                 "language": result.get("language", "en"),
                 "confidence": self._estimate_confidence(result),
                 "segments": [
                     {
-                        "start": seg["start"],
-                        "end": seg["end"],
-                        "text": seg["text"].strip(),
-                        "confidence": seg.get("no_speech_prob", 0)
+                        "start": seg.get("start", 0) if isinstance(seg, dict) else 0,  # type: ignore[union-attr]
+                        "end": seg.get("end", 0) if isinstance(seg, dict) else 0,  # type: ignore[union-attr]
+                        "text": seg.get("text", "").strip() if isinstance(seg, dict) else "",  # type: ignore[union-attr]
+                        "confidence": seg.get("no_speech_prob", 0) if isinstance(seg, dict) else 0  # type: ignore[union-attr]
                     }
-                    for seg in result.get("segments", [])
+                    for seg in segments if isinstance(seg, dict)
                 ],
-                "duration": result.get("segments", [{}])[-1].get("end", 0) if result.get("segments") else 0
+                "duration": segments[-1].get("end", 0) if segments and isinstance(segments[-1], dict) else 0
             }
             
         except ImportError:
@@ -142,7 +144,7 @@ class SpeechToText:
     async def _transcribe_fallback(self, audio_path: str) -> Dict:
         """Fallback transcription using speech_recognition library"""
         try:
-            import speech_recognition as sr
+            import speech_recognition as sr  # type: ignore[import-not-found]
             
             recognizer = sr.Recognizer()
             
@@ -181,7 +183,7 @@ class SpeechToText:
             return audio_path
         
         try:
-            from pydub import AudioSegment
+            from pydub import AudioSegment  # type: ignore[import-not-found]
             
             # Load and convert
             audio = AudioSegment.from_file(audio_path)
@@ -297,8 +299,8 @@ class AudioProcessor:
                 "tempo": float(tempo),
                 "voice_activity_ratio": float(voice_ratio),
                 "speaking_rate": self._estimate_speaking_rate(duration, pitch_values),
-                "stress_level": self._estimate_stress(pitch_std, energy_std),
-                "synthetic_probability": self._estimate_synthetic(pitch_std, zcr)
+                "stress_level": self._estimate_stress(float(pitch_std), float(energy_std)),
+                "synthetic_probability": self._estimate_synthetic(float(pitch_std), float(zcr))
             }
             
         except ImportError:

@@ -9,7 +9,7 @@ from typing import List, Optional
 from datetime import datetime, timedelta
 
 from app.core.database import get_db
-from app.api.schemas import CallResponse, CallDetailResponse
+from app.api.schemas import CallResponse, CallDetailResponse, ClassificationType
 from app.models.call import Call, CallClassification, CallStatus
 
 router = APIRouter()
@@ -69,18 +69,18 @@ async def get_calls(
     calls = result.scalars().all()
     
     calls_data = [CallResponse(
-        id=call.id,
-        call_id=call.call_id,
-        caller_number=call.caller_number,
-        callee_number=call.callee_number,
-        call_timestamp=call.call_timestamp,
+        id=int(call.id),  # type: ignore[arg-type]
+        call_id=str(call.call_id),  # type: ignore[arg-type]
+        caller_number=str(call.caller_number) if call.caller_number else None,  # type: ignore[arg-type]
+        callee_number=str(call.callee_number) if call.callee_number else None,  # type: ignore[arg-type]
+        call_timestamp=call.call_timestamp,  # type: ignore[arg-type]
         status=call.status.value,
-        classification=call.classification.value,
-        risk_score=call.risk_score,
-        transcript=call.transcript[:200] + "..." if call.transcript and len(call.transcript) > 200 else call.transcript,
-        ai_explanation=call.ai_explanation,
-        created_at=call.created_at,
-        analyzed_at=call.analyzed_at
+        classification=ClassificationType(call.classification.value) if call.classification else ClassificationType.UNKNOWN,  # type: ignore[truthy-bool]
+        risk_score=float(call.risk_score or 0),  # type: ignore[arg-type]
+        transcript=(str(call.transcript)[:200] + "...") if call.transcript and len(str(call.transcript)) > 200 else (str(call.transcript) if call.transcript else None),  # type: ignore[arg-type]
+        ai_explanation=str(call.ai_explanation) if call.ai_explanation else None,  # type: ignore[arg-type]
+        created_at=call.created_at,  # type: ignore[arg-type]
+        analyzed_at=call.analyzed_at  # type: ignore[arg-type]
     ) for call in calls]
     
     return {
@@ -123,33 +123,33 @@ async def get_call_detail(
         raise HTTPException(status_code=404, detail="Call not found")
     
     return CallDetailResponse(
-        id=call.id,
-        call_id=call.call_id,
-        caller_number=call.caller_number,
-        callee_number=call.callee_number,
-        call_timestamp=call.call_timestamp,
+        id=int(call.id),  # type: ignore[arg-type]
+        call_id=str(call.call_id),  # type: ignore[arg-type]
+        caller_number=str(call.caller_number) if call.caller_number else None,  # type: ignore[arg-type]
+        callee_number=str(call.callee_number) if call.callee_number else None,  # type: ignore[arg-type]
+        call_timestamp=call.call_timestamp,  # type: ignore[arg-type]
         status=call.status.value,
-        classification=call.classification.value if call.classification else "unknown",
-        risk_score=call.risk_score,
-        spam_score=call.spam_score,
-        fraud_score=call.fraud_score,
-        phishing_score=call.phishing_score,
-        robocall_score=call.robocall_score,
-        transcript=call.transcript,
-        transcript_language=call.transcript_language,
-        transcript_confidence=call.transcript_confidence,
-        suspicious_keywords=call.suspicious_keywords or [],
-        fraud_indicators=call.fraud_indicators or [],
-        highlighted_phrases=call.highlighted_phrases or [],
-        voice_characteristics=call.voice_characteristics or {},
-        acoustic_features=call.acoustic_features or {},
-        behavioral_patterns=call.behavioral_patterns or {},
-        intent_analysis=call.intent_analysis or {},
-        ai_explanation=call.ai_explanation or "",
-        confidence_score=call.confidence_score,
-        duration_seconds=call.duration_seconds,
-        created_at=call.created_at,
-        analyzed_at=call.analyzed_at
+        classification=call.classification.value if call.classification else "unknown",  # type: ignore[truthy-bool]
+        risk_score=float(call.risk_score or 0),  # type: ignore[arg-type]
+        spam_score=float(call.spam_score or 0),  # type: ignore[arg-type]
+        fraud_score=float(call.fraud_score or 0),  # type: ignore[arg-type]
+        phishing_score=float(call.phishing_score or 0),  # type: ignore[arg-type]
+        robocall_score=float(call.robocall_score or 0),  # type: ignore[arg-type]
+        transcript=str(call.transcript) if call.transcript else None,  # type: ignore[arg-type]
+        transcript_language=str(call.transcript_language),  # type: ignore[arg-type]
+        transcript_confidence=float(call.transcript_confidence or 0),  # type: ignore[arg-type]
+        suspicious_keywords=list(call.suspicious_keywords) if call.suspicious_keywords else [],  # type: ignore[arg-type]
+        fraud_indicators=list(call.fraud_indicators) if call.fraud_indicators else [],  # type: ignore[arg-type]
+        highlighted_phrases=list(call.highlighted_phrases) if call.highlighted_phrases else [],  # type: ignore[arg-type]
+        voice_characteristics=dict(call.voice_characteristics) if call.voice_characteristics else {},  # type: ignore[arg-type]
+        acoustic_features=dict(call.acoustic_features) if call.acoustic_features else {},  # type: ignore[arg-type]
+        behavioral_patterns=dict(call.behavioral_patterns) if call.behavioral_patterns else {},  # type: ignore[arg-type]
+        intent_analysis=dict(call.intent_analysis) if call.intent_analysis else {},  # type: ignore[arg-type]
+        ai_explanation=str(call.ai_explanation) if call.ai_explanation else "",  # type: ignore[arg-type]
+        confidence_score=float(call.confidence_score or 0),  # type: ignore[arg-type]
+        duration_seconds=float(call.duration_seconds or 0),  # type: ignore[arg-type]
+        created_at=call.created_at,  # type: ignore[arg-type]
+        analyzed_at=call.analyzed_at  # type: ignore[arg-type]
     )
 
 
@@ -190,15 +190,17 @@ async def get_recent_alerts(
     
     alerts = []
     for call in calls:
-        severity = "critical" if call.risk_score >= 90 else "high" if call.risk_score >= 80 else "medium"
+        risk_score_val = float(call.risk_score or 0)  # type: ignore[arg-type]
+        severity = "critical" if risk_score_val >= 90 else "high" if risk_score_val >= 80 else "medium"
+        classification_val = call.classification.value if call.classification else "unknown"  # type: ignore[truthy-bool]
         alerts.append({
             "alert_id": f"alert_{call.call_id}",
             "call_id": call.call_id,
-            "alert_type": call.classification.value if call.classification else "unknown",
+            "alert_type": classification_val,
             "severity": severity,
-            "message": f"{call.classification.value.upper()} detected with {call.risk_score:.0f}% risk score",
-            "risk_score": call.risk_score,
-            "timestamp": call.created_at.isoformat(),
+            "message": f"{classification_val.upper()} detected with {risk_score_val:.0f}% risk score",
+            "risk_score": risk_score_val,
+            "timestamp": call.created_at.isoformat(),  # type: ignore[union-attr]
             "caller_number": call.caller_number
         })
     

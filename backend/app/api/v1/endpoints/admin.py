@@ -5,7 +5,7 @@ Admin Panel Endpoints
 from fastapi import APIRouter, HTTPException, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, desc
-from typing import List, Optional
+from typing import List, Optional, cast
 from datetime import datetime
 
 from app.core.database import get_db
@@ -43,18 +43,18 @@ async def get_rules(
     rules = result.scalars().all()
     
     return [RuleResponse(
-        id=rule.id,
-        name=rule.name,
-        description=rule.description,
+        id=int(rule.id),  # type: ignore[arg-type]
+        name=str(rule.name),  # type: ignore[arg-type]
+        description=str(rule.description) if rule.description else None,  # type: ignore[arg-type]
         rule_type=rule.rule_type.value,
         category=rule.category.value,
-        keywords=rule.keywords or [],
-        patterns=rule.patterns or [],
-        weight=rule.weight,
-        language=rule.language,
-        is_active=rule.is_active,
-        priority=rule.priority,
-        created_at=rule.created_at
+        keywords=list(rule.keywords) if rule.keywords else [],  # type: ignore[arg-type]
+        patterns=list(rule.patterns) if rule.patterns else [],  # type: ignore[arg-type]
+        weight=float(rule.weight),  # type: ignore[arg-type]
+        language=str(rule.language),  # type: ignore[arg-type]
+        is_active=bool(rule.is_active),  # type: ignore[arg-type]
+        priority=int(rule.priority),  # type: ignore[arg-type]
+        created_at=rule.created_at  # type: ignore[arg-type]
     ) for rule in rules]
 
 
@@ -81,18 +81,18 @@ async def create_rule(
     await db.refresh(rule)
     
     return RuleResponse(
-        id=rule.id,
-        name=rule.name,
-        description=rule.description,
+        id=int(rule.id),  # type: ignore[arg-type]
+        name=str(rule.name),  # type: ignore[arg-type]
+        description=str(rule.description) if rule.description else None,  # type: ignore[arg-type]
         rule_type=rule.rule_type.value,
         category=rule.category.value,
-        keywords=rule.keywords or [],
-        patterns=rule.patterns or [],
-        weight=rule.weight,
-        language=rule.language,
-        is_active=rule.is_active,
-        priority=rule.priority,
-        created_at=rule.created_at
+        keywords=list(rule.keywords) if rule.keywords else [],  # type: ignore[arg-type]
+        patterns=list(rule.patterns) if rule.patterns else [],  # type: ignore[arg-type]
+        weight=float(rule.weight),  # type: ignore[arg-type]
+        language=str(rule.language),  # type: ignore[arg-type]
+        is_active=bool(rule.is_active),  # type: ignore[arg-type]
+        priority=int(rule.priority),  # type: ignore[arg-type]
+        created_at=rule.created_at  # type: ignore[arg-type]
     )
 
 
@@ -111,36 +111,36 @@ async def update_rule(
     
     # Update fields
     if rule_data.name is not None:
-        rule.name = rule_data.name
+        rule.name = rule_data.name  # type: ignore[assignment]
     if rule_data.description is not None:
-        rule.description = rule_data.description
+        rule.description = rule_data.description  # type: ignore[assignment]
     if rule_data.keywords is not None:
-        rule.keywords = rule_data.keywords
+        rule.keywords = rule_data.keywords  # type: ignore[assignment]
     if rule_data.patterns is not None:
-        rule.patterns = rule_data.patterns
+        rule.patterns = rule_data.patterns  # type: ignore[assignment]
     if rule_data.weight is not None:
-        rule.weight = rule_data.weight
+        rule.weight = rule_data.weight  # type: ignore[assignment]
     if rule_data.is_active is not None:
-        rule.is_active = rule_data.is_active
+        rule.is_active = rule_data.is_active  # type: ignore[assignment]
     
-    rule.updated_at = datetime.utcnow()
+    rule.updated_at = datetime.utcnow()  # type: ignore[assignment]
     
     await db.commit()
     await db.refresh(rule)
     
     return RuleResponse(
-        id=rule.id,
-        name=rule.name,
-        description=rule.description,
+        id=int(rule.id),  # type: ignore[arg-type]
+        name=str(rule.name),  # type: ignore[arg-type]
+        description=str(rule.description) if rule.description else None,  # type: ignore[arg-type]
         rule_type=rule.rule_type.value,
         category=rule.category.value,
-        keywords=rule.keywords or [],
-        patterns=rule.patterns or [],
-        weight=rule.weight,
-        language=rule.language,
-        is_active=rule.is_active,
-        priority=rule.priority,
-        created_at=rule.created_at
+        keywords=list(rule.keywords) if rule.keywords else [],  # type: ignore[arg-type]
+        patterns=list(rule.patterns) if rule.patterns else [],  # type: ignore[arg-type]
+        weight=float(rule.weight),  # type: ignore[arg-type]
+        language=str(rule.language),  # type: ignore[arg-type]
+        is_active=bool(rule.is_active),  # type: ignore[arg-type]
+        priority=int(rule.priority),  # type: ignore[arg-type]
+        created_at=rule.created_at  # type: ignore[arg-type]
     )
 
 
