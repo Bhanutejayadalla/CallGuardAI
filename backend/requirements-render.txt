@@ -1,23 +1,19 @@
 # Ultra-Lightweight requirements for Render deployment
-# CRITICAL: Pre-compiled wheels ONLY - no Rust/C/Fortran compilation!
-# This is the most minimal set needed to boot the app
+# CRITICAL: Pre-compiled wheels ONLY for Python 3.11+
+# Pure Python packages only - NO Rust/C/Fortran compilation!
 
 # FastAPI and Web Framework
-fastapi==0.104.1
-uvicorn==0.24.0
-python-multipart==0.0.6
+fastapi==0.100.0
+uvicorn==0.23.0
 
 # Authentication
 python-jose==3.3.0
 passlib==1.7.4
 
-# Database (no asyncpg - pure Python)
-sqlalchemy==2.0.23
-aiosqlite==0.19.0
+# Database (SQLite only - no asyncpg which requires C)
+sqlalchemy==2.0.0
 
-# Utilities (minimal, pre-compiled wheels only)
-pydantic==2.4.2
-pydantic-settings==2.0.3
+# Utilities (pure Python versions)
+pydantic==1.10.12
 python-dotenv==1.0.0
-httpx==0.25.0
 loguru==0.7.2
