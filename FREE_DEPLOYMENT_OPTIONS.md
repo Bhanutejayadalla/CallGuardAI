@@ -52,7 +52,7 @@ git push origin main
    Region: Singapore (closest to India)
    Branch: main
    Root Directory: backend
-   Build Command: pip install -r requirements.txt
+   Build Command: pip install -r requirements-render.txt
    Start Command: uvicorn main:app --host 0.0.0.0 --port $PORT
    ```
 5. Add Environment Variables:

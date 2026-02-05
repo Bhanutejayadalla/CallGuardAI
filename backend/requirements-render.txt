@@ -1,0 +1,35 @@
+# Lightweight requirements for Render deployment
+# Optimized: No build-heavy dependencies, only essentials
+
+# FastAPI and Web Framework
+fastapi==0.115.0
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+websockets==15.0
+
+# Authentication
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# Database
+sqlalchemy==2.0.36
+aiosqlite==0.22.1
+asyncpg==0.30.0
+
+# Utilities
+pydantic==2.5.3
+pydantic-settings==2.1.0
+python-dotenv==1.0.0
+httpx==0.26.0
+aiofiles==23.2.1
+loguru==0.7.2
+
+# AI/ML - Lightweight
+numpy==1.26.3
+scipy==1.12.0
+scikit-learn==1.4.0
+transformers==4.36.2
+
+# Language Support
+indic-transliteration==2.3.44
+langdetect==1.0.9
